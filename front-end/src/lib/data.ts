@@ -8,122 +8,163 @@ export const teachersData = [
     teacherId: "1234567890",
     name: "John Doe",
     email: "john@doe.com",
-    photo:
-      "https://images.pexels.com/photos/2888150/pexels-photo-2888150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/2888150/pexels-photo-2888150.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["Math", "Geometry"],
-    classes: ["1B", "2A", "3C"],
+    birthday: "1985-06-15",
+    bloodType: "A+",
+    sex: "male",  // Ensure this is "male" or "female"
     address: "123 Main St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["Math", "Physics"], 
+      "Class 6B": ["Chemistry"]
+    }
   },
   {
     id: 2,
-    teacherId: "1234567890",
+    teacherId: "1234567891",
     name: "Jane Doe",
     email: "jane@doe.com",
-    photo:
-      "https://images.pexels.com/photos/936126/pexels-photo-936126.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/936126/pexels-photo-936126.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["Physics", "Chemistry"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
+    birthday: "1990-02-28",
+    bloodType: "B-",
+    sex: "female",  // Ensure this is "male" or "female"
+    address: "456 Another St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["Physics", "Chemistry"], 
+      "Class 4B": ["Math"]
+    }
   },
   {
     id: 3,
-    teacherId: "1234567890",
+    teacherId: "1234567892",
     name: "Mike Geller",
     email: "mike@geller.com",
-    photo:
-      "https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["Biology"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
+    birthday: "1988-08-20",
+    bloodType: "O+",
+    sex: "male",  // Ensure this is "male" or "female"
+    address: "789 New St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["Biology"], 
+      "Class 4B": ["Biology"]
+    }
   },
   {
     id: 4,
-    teacherId: "1234567890",
+    teacherId: "1234567893",
     name: "Jay French",
     email: "jay@gmail.com",
-    photo:
-      "https://images.pexels.com/photos/1187765/pexels-photo-1187765.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/1187765/pexels-photo-1187765.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["History"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
+    birthday: "1984-04-11",
+    bloodType: "AB+",
+    sex: "male",  // Ensure this is "male" or "female"
+    address: "101 New Main St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["History"], 
+      "Class 4B": ["History"]
+    }
   },
   {
     id: 5,
-    teacherId: "1234567890",
+    teacherId: "1234567894",
     name: "Jane Smith",
     email: "jane@gmail.com",
-    photo:
-      "https://images.pexels.com/photos/1102341/pexels-photo-1102341.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/1102341/pexels-photo-1102341.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["Music", "History"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
+    birthday: "1992-07-05",
+    bloodType: "O-",
+    sex: "female",  // Ensure this is "male" or "female"
+    address: "202 New St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["Music", "History"], 
+      "Class 4B": ["Music"]
+    }
   },
   {
     id: 6,
-    teacherId: "1234567890",
+    teacherId: "1234567895",
     name: "Anna Santiago",
     email: "anna@gmail.com",
-    photo:
-      "https://images.pexels.com/photos/712513/pexels-photo-712513.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/712513/pexels-photo-712513.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["Physics"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
+    birthday: "1993-12-15",
+    bloodType: "A-",
+    sex: "female",  // Ensure this is "male" or "female"
+    address: "303 Sunset Blvd, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["Physics"], 
+      "Class 4B": ["Physics"]
+    }
   },
   {
     id: 7,
-    teacherId: "1234567890",
+    teacherId: "1234567896",
     name: "Allen Black",
     email: "allen@black.com",
-    photo:
-      "https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["English", "Spanish"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
+    birthday: "1989-01-22",
+    bloodType: "B+",
+    sex: "male",  // Ensure this is "male" or "female"
+    address: "404 Oak St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["English", "Spanish"], 
+      "Class 4B": ["English"]
+    }
   },
   {
     id: 8,
-    teacherId: "1234567890",
+    teacherId: "1234567897",
     name: "Ophelia Castro",
     email: "ophelia@castro.com",
-    photo:
-      "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["Math", "Geometry"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
+    birthday: "1994-10-03",
+    bloodType: "AB-",
+    sex: "female",  // Ensure this is "male" or "female"
+    address: "505 Elm St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["Math", "Geometry"], 
+      "Class 4B": ["Math"]
+    }
   },
   {
     id: 9,
-    teacherId: "1234567890",
+    teacherId: "1234567898",
     name: "Derek Briggs",
     email: "derek@briggs.com",
-    photo:
-      "https://images.pexels.com/photos/842980/pexels-photo-842980.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/842980/pexels-photo-842980.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["Literature", "English"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
+    birthday: "1987-11-28",
+    bloodType: "O+",
+    sex: "male",  // Ensure this is "male" or "female"
+    address: "606 Pine St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["Literature", "English"], 
+      "Class 4B": ["Literature"]
+    }
   },
   {
     id: 10,
-    teacherId: "1234567890",
+    teacherId: "1234567899",
     name: "John Glover",
     email: "john@glover.com",
-    photo:
-      "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photo: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1200",
     phone: "1234567890",
-    subjects: ["Biology"],
-    classes: ["5A", "4B", "3C"],
-    address: "123 Main St, Anytown, USA",
-  },
+    birthday: "1986-05-09",
+    bloodType: "A+",
+    sex: "male",  // Ensure this is "male" or "female"
+    address: "707 Birch St, Anytown, USA",
+    classesAndSubjects: {
+      "Class 5A": ["Biology"], 
+      "Class 4B": ["Biology"]
+    }
+  }
 ];
+
 
 export const studentsData = [
   {
@@ -387,136 +428,126 @@ export const subjectsData = [
 export const classesData = [
   {
     id: 1,
-    name: "1A",
+    name: "Class 1A",
     capacity: 20,
     grade: 1,
     supervisor: "Joseph Padilla",
+    subjects: ["Math", "Reading", "Science"]
   },
   {
     id: 2,
-    name: "2B",
+    name: "Class 2B",
     capacity: 22,
     grade: 2,
     supervisor: "Blake Joseph",
+    subjects: ["Math", "Writing", "Geography"]
   },
   {
     id: 3,
-    name: "3C",
+    name: "Class 3C",
     capacity: 20,
     grade: 3,
     supervisor: "Tom Bennett",
+    subjects: ["Math", "Science", "Social Studies"]
   },
   {
     id: 4,
-    name: "4B",
+    name: "Class 4B",
     capacity: 18,
     grade: 4,
     supervisor: "Aaron Collins",
+    subjects: ["Math", "Biology", "History", "Music", "English", "Physics", "Literature"]
   },
   {
     id: 5,
-    name: "5A",
+    name: "Class 5A",
     capacity: 16,
     grade: 5,
     supervisor: "Iva Frank",
-  },
-  {
-    id: 5,
-    name: "5B",
-    capacity: 20,
-    grade: 5,
-    supervisor: "Leila Santos",
-  },
-  {
-    id: 7,
-    name: "7A",
-    capacity: 18,
-    grade: 7,
-    supervisor: "Carrie Walton",
-  },
-  {
-    id: 8,
-    name: "6B",
-    capacity: 22,
-    grade: 6,
-    supervisor: "Christopher Butler",
-  },
-  {
-    id: 9,
-    name: "6C",
-    capacity: 18,
-    grade: 6,
-    supervisor: "Marc Miller",
-  },
-  {
-    id: 10,
-    name: "6D",
-    capacity: 20,
-    grade: 6,
-    supervisor: "Ophelia Marsh",
-  },
-];
-
-export const lessonsData = [
-  {
-    id: 1,
-    subject: "Math",
-    class: "1A",
-    teacher: "Tommy Wise",
-  },
-  {
-    id: 2,
-    subject: "English",
-    class: "2A",
-    teacher: "Rhoda Frank",
-  },
-  {
-    id: 3,
-    subject: "Science",
-    class: "3A",
-    teacher: "Della Dunn",
-  },
-  {
-    id: 4,
-    subject: "Social Studies",
-    class: "1B",
-    teacher: "Bruce Rodriguez",
-  },
-  {
-    id: 5,
-    subject: "Art",
-    class: "4A",
-    teacher: "Birdie Butler",
+    subjects: ["Math", "Physics", "Chemistry", "Biology", "History", "Music", "English", "Spanish", "Geometry", "Literature"]
   },
   {
     id: 6,
-    subject: "Music",
-    class: "5A",
-    teacher: "Bettie Oliver",
+    name: "Class 5B",
+    capacity: 20,
+    grade: 5,
+    supervisor: "Leila Santos",
+    subjects: ["Math", "English", "Science"]
   },
   {
     id: 7,
-    subject: "History",
-    class: "6A",
-    teacher: "Herman Howard",
+    name: "Class 7A",
+    capacity: 18,
+    grade: 7,
+    supervisor: "Carrie Walton",
+    subjects: ["Math", "Advanced Physics", "Chemistry"]
   },
   {
     id: 8,
-    subject: "Geography",
-    class: "6B",
-    teacher: "Lucinda Thomas",
+    name: "Class 6B",
+    capacity: 22,
+    grade: 6,
+    supervisor: "Christopher Butler",
+    subjects: ["Chemistry", "Math", "Literature"]
   },
   {
     id: 9,
-    subject: "Physics",
-    class: "6C",
-    teacher: "Ronald Roberts",
+    name: "Class 6C",
+    capacity: 18,
+    grade: 6,
+    supervisor: "Marc Miller",
+    subjects: ["Math", "Biology", "English"]
   },
   {
     id: 10,
-    subject: "Chemistry",
-    class: "4B",
-    teacher: "Julia Pittman",
+    name: "Class 6D",
+    capacity: 20,
+    grade: 6,
+    supervisor: "Ophelia Marsh",
+    subjects: ["Math", "Physics", "Social Studies"]
+  }
+];
+
+export const coursesData = [
+  {
+    id: 1,
+    name: "Math",
+  },
+  {
+    id: 2,
+    name: "English",
+  },
+  {
+    id: 3,
+    name: "Science",
+  },
+  {
+    id: 4,
+    name: "Social Studies",
+  },
+  {
+    id: 5,
+    name: "Art",
+  },
+  {
+    id: 6,
+    name: "Music",
+  },
+  {
+    id: 7,
+    name: "History",
+  },
+  {
+    id: 8,
+    name: "Geography",
+  },
+  {
+    id: 9,
+    name: "Physics",
+  },
+  {
+    id: 10,
+    name: "Chemistry",
   },
 ];
 

@@ -10,6 +10,8 @@ import { FiPlusCircle } from "react-icons/fi";
 const TeachersListPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [teacherIdToDelete, setTeacherIdToDelete] = useState<number | null>(null);
+  const [teacherIdToUpdate, setTeacherIdToUpdate] = useState<number | null>(null);
+  const [selectedTeacher, setSelectedTeacher] = useState<any>(null);
 
   const data = teachersData;
 
@@ -18,7 +20,27 @@ const TeachersListPage = () => {
     setIsModalOpen(true); // Open the modal when delete is triggered
   };
 
+  const handleUpdate = (id: number) => {
+    const teacherToUpdate = teachersData.find(teacher => teacher.id === id);
+    if (teacherToUpdate) {
+      // Split the name into firstName and lastName
+      const [firstName = "", lastName = ""] = teacherToUpdate.name.split(" ");
+      const formattedTeacher = {
+        ...teacherToUpdate,
+        firstName,
+        lastName,
+        // Format the date to YYYY-MM-DD for the input field
+        birthday: teacherToUpdate.birthday,
+        role: "teacher"
+      };
+      setSelectedTeacher(formattedTeacher);
+      setTeacherIdToUpdate(id);
+      setIsModalOpen(true);
+    }
+  };
+
   const openCreate = () => {
+    setTeacherIdToUpdate(null);
     setIsModalOpen(true)
   }
 
@@ -34,7 +56,7 @@ const TeachersListPage = () => {
   };
 
   // Get columns with the handleDelete function passed in
-  const columns = createColumns(handleDelete);
+  const columns = createColumns(handleDelete, handleUpdate);
 
   return (
     <div className="relative">
@@ -63,7 +85,16 @@ const TeachersListPage = () => {
           onConfirmDelete={handleConfirmDelete} // Pass the confirm handler
         />
       )}
-      {isModalOpen && (<FormModal
+      {isModalOpen && teacherIdToUpdate !== null && (
+        <FormModal
+          table="teacher"
+          type="update"
+          id={teacherIdToUpdate}
+          onClose={closeModal}
+          data={selectedTeacher} // Pass the formatted teacher data
+        />
+      )}
+      {isModalOpen && teacherIdToUpdate === null && (<FormModal
                   table="teacher"
                   type="create"
                   onClose={closeModal}

@@ -6,20 +6,8 @@ import { z } from "zod";
 import InputField from "../InputField";
 import Image from "next/image";
 import { useState } from "react";
-
-const classesData = {
-  "Class A": ["Math", "Physics", "Chemistry", "Biology"],
-  "Class B": ["History", "Geography", "Civics", "Economics"],
-  "Class C": [
-    "Programming",
-    "Data Structures",
-    "Algorithms",
-    "Web Development",
-  ],
-  "Class D": ["Art", "Music", "Theater", "Photography"],
-};
-
-type ClassKey = keyof typeof classesData;
+import { FiX } from "react-icons/fi";
+import { classesData } from "@/lib/data";
 
 const schema = z.object({
   email: z.string().email({ message: "Invalid email address!" }),
@@ -40,44 +28,123 @@ const schema = z.object({
 
 type Inputs = z.infer<typeof schema>;
 
-const TeacherForm = ({
-  type,
-  data,
-}: {
-  type: "create" | "update";
-  data?: any;
-}) => {
+const TeacherForm = ({ type, data }: { type: "create" | "update"; data?: any }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setValue
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
+    defaultValues: type === "update" ? {
+      firstName: data?.firstName || "",
+      lastName: data?.lastName || "",
+      email: data?.email || "",
+      phone: data?.phone || "",
+      birthday: data?.birthday || "",
+      bloodType: data?.bloodType || "",
+      sex: data?.sex || "male",
+      address: data?.address || "",
+      role: "teacher",
+      img: data?.photo || ""
+    } : {
+      role: "select",
+      sex: "male"
+    }
   });
 
-  const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
+  const [selectedClasses, setSelectedClasses] = useState<string[]>(() => {
+    if (type === "update" && data?.classesAndSubjects) {
+      return Object.keys(data.classesAndSubjects);
+    }
+    return [];
+  });
+
+  const [selectedCourses, setSelectedCourses] = useState<{
+    [key: string]: string[];
+  }>(() => {
+    if (type === "update" && data?.classesAndSubjects) {
+      return data.classesAndSubjects;
+    }
+    return {};
+  });
 
   const role = watch("role");
-  const selectedClass = watch("class");
+
+  const availableClasses = classesData
+    .map((c) => c.name)
+    .filter((className) => !selectedClasses.includes(className));
+
+  // Get available courses for a specific class
+  const getAvailableCoursesForClass = (className: string) => {
+    const classData = classesData.find((c) => c.name === className);
+    const selectedCoursesForClass = selectedCourses[className] || [];
+    return (
+      classData?.subjects.filter(
+        (subject) => !selectedCoursesForClass.includes(subject)
+      ) || []
+    );
+  };
 
   const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    if (value && !selectedClasses.includes(value)) {
-      setSelectedClasses([...selectedClasses, value]);
-    } else if (selectedClasses.includes(value)) {
-      setSelectedClasses(selectedClasses.filter((cls) => cls !== value));
+    if (value && value !== "select") {
+      setSelectedClasses((prev) => [...prev, value]);
+      setSelectedCourses((prev) => ({ ...prev, [value]: [] }));
     }
   };
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const handleCourseChange = (
+    className: string,
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const value = event.target.value;
+    if (value && value !== "select") {
+      setSelectedCourses((prev) => ({
+        ...prev,
+        [className]: [...(prev[className] || []), value],
+      }));
+    }
+  };
+
+  const removeClass = (className: string) => {
+    setSelectedClasses((prev) => prev.filter((c) => c !== className));
+    setSelectedCourses((prev) => {
+      const newCourses = { ...prev };
+      delete newCourses[className];
+      return newCourses;
+    });
+  };
+
+  const removeCourse = (className: string, course: string) => {
+    setSelectedCourses((prev) => ({
+      ...prev,
+      [className]: prev[className].filter((c) => c !== course),
+    }));
+  };
+
+  const onSubmit = handleSubmit((formData) => {
+    const submissionData = {
+      ...formData,
+      name: `${formData.firstName} ${formData.lastName}`,
+      classesAndSubjects: selectedCourses,
+    };
+    console.log(submissionData);
+    // Handle form submission
   });
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <div className="px-4 w-full">
-        <h1 className="text-xl font-semibold">Create a new teacher</h1>
+    <form className="flex flex-col gap-8 h-[98%]" onSubmit={onSubmit}>
+      <div className="px-4 w-[full]">
+        <h1 className="text-xl font-semibold">
+          {" "}
+          {type === "create" ? (
+            <>Create a new teacher</>
+          ) : (
+            <>Update information</>
+          )}{" "}
+        </h1>
         <div className="mt-2">
           <span className="text-lg font-medium text-gray-400">
             Personal Information
@@ -162,47 +229,86 @@ const TeacherForm = ({
                 </div>
               </div>
               {role === "teacher" && (
-                <div>
-                  <label className="text-xs text-gray-500">Class</label>
+                <div className="space-y-4">
                   <div>
-                    <select
-                      className="ring-[1.5px] ring-gray-300 rounded-md text-sm px-8 py-2"
-                      onChange={handleClassChange}
-                    >
-                      <option value="select">Select</option>
-                      {Object.keys(classesData).map((className) => (
-                        <option key={className} value={className}>
-                          {className}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.class?.message && (
-                      <p className="text-xs text-red-400">
-                        {errors.class.message.toString()}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
-              {selectedClasses.length > 0 && role === "teacher" && (
-                <div className="flex gap-8">
-                  <div>
-                    <label className="text-xs text-gray-500">Course</label>
-                    <div>
-                      <select className="ring-[1.5px] ring-gray-300 rounded-md text-sm px-8 py-2">
-                        {selectedClasses.flatMap((className) =>
-                          classesData[className as ClassKey]?.map((course) => (
-                            <option key={course} value={course}>
-                              {course}
-                            </option>
-                          ))
-                        )}
+                    <label className="text-xs text-gray-500">Class</label>
+                    <div className="flex flex-col gap-2">
+                      <select
+                        className="ring-[1.5px] ring-gray-300 rounded-md text-sm px-8 py-2 w-60"
+                        onChange={handleClassChange}
+                        value="select"
+                      >
+                        <option value="select">Select Class</option>
+                        {availableClasses.map((className) => (
+                          <option key={className} value={className}>
+                            {className}
+                          </option>
+                        ))}
                       </select>
-                      {errors.courses?.message && (
-                        <p className="text-xs text-red-400">
-                          {errors.courses.message.toString()}
-                        </p>
-                      )}
+
+                      {/* Display selected classes and their courses */}
+                      <div className="mt-2 space-y-2">
+                        <div className="flex flex-wrap gap-2 max-w-full overflow-x-auto max-h-28 overflow-y-auto">
+                          {selectedClasses.map((className) => (
+                            <div
+                              key={className}
+                              className="border rounded-md p-2 mb-2 w-60"
+                            >
+                              <div className="flex justify-between items-center">
+                                <span className="font-medium">{className}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => removeClass(className)}
+                                  className="text-gray-500 hover:text-red-500"
+                                >
+                                  <FiX />
+                                </button>
+                              </div>
+
+                              {/* Course selection for this class */}
+                              <div className="mt-2">
+                                <select
+                                  className="ring-[1.5px] ring-gray-300 rounded-md text-sm px-8 py-2 w-full"
+                                  onChange={(e) =>
+                                    handleCourseChange(className, e)
+                                  }
+                                  value="select"
+                                >
+                                  <option value="select">Select Course</option>
+                                  {getAvailableCoursesForClass(className).map(
+                                    (subject) => (
+                                      <option key={subject} value={subject}>
+                                        {subject}
+                                      </option>
+                                    )
+                                  )}
+                                </select>
+
+                                {/* Display selected courses */}
+                                <div className="mt-2 flex flex-wrap gap-1">
+                                  {selectedCourses[className]?.map((course) => (
+                                    <span
+                                      key={course}
+                                      className="bg-gray-100 px-2 py-1 rounded-md text-sm flex items-center gap-1"
+                                    >
+                                      {course}
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          removeCourse(className, course)
+                                        }
+                                        className="text-gray-500 hover:text-red-500"
+                                      >
+                                        <FiX size={14} />
+                                      </button>
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

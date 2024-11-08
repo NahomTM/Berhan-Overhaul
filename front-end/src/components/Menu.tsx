@@ -53,8 +53,8 @@ const menuItems = [
       },
       {
         icon: <MdOutlinePlayLesson />,
-        label: "Lessons",
-        href: "/list/lessons",
+        label: "Courses",
+        href: "/list/courses",
         visible: ["admin", "teacher"],
       },
       {

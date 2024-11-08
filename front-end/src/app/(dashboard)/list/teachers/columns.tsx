@@ -1,4 +1,4 @@
-// TeachersPage.tsx or wherever your user type and columns function are defined
+// TeachersPage.tsx or wherever your teacher type and columns function are defined
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,20 +13,24 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export type User = {
-  id: number;
+export type Teacher = {
+ id: number;
   teacherId: string;
   name: string;
   email?: string;
   photo: string;
   phone: string;
-  subjects: string[];
-  classes: string[];
+  birthday: string;
+  bloodType?: string;
+  sex: string;
   address: string;
+  classesAndSubjects: {
+    [className: string]: string[] | undefined;
+  };
 };
 
 // Create a function to define the columns
-export const createColumns = (handleDelete: (id: number) => void): ColumnDef<User>[] => [
+export const createColumns = (handleDelete: (id: number) => void, handleUpdate: (id: number) => void): ColumnDef<Teacher>[] => [
   {
     accessorKey: "id",
     header: "ID",
@@ -38,17 +42,17 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Use
     id: "photoAndName",
     header: "Name",
     cell: ({ row }) => {
-      const user = row.original;
+      const teacher = row.original;
       return (
         <div className="flex items-center space-x-2">
           <Image
-            src={user.photo}
-            alt={user.name}
+            src={teacher.photo}
+            alt={teacher.name}
             width={40}
             height={40}
             className="h-8 w-8 rounded-full"
           />
-          <span>{user.name}</span>
+          <span>{teacher.name}</span>
         </div>
       );
     },
@@ -67,7 +71,8 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Use
     accessorKey: "classes",
     header: "Classes",
     cell: ({ row }) => {
-      const classes = row.getValue("classes") as string[];
+      const classesAndSubjects = row.original.classesAndSubjects;
+      const classes = Object.keys(classesAndSubjects);
       return <div>{classes.join(", ")}</div>;
     },
   },
@@ -75,15 +80,23 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Use
     accessorKey: "subjects",
     header: "Subjects",
     cell: ({ row }) => {
-      const subjects = row.getValue("subjects") as string[];
-      return <div>{subjects.join(", ")}</div>;
+      const classesAndSubjects = row.original.classesAndSubjects;
+      return (
+        <div>
+          {Object.entries(classesAndSubjects).map(([className, subjects]) => (
+            <div key={className}>
+              {subjects?.map(subject => `${subject} (${className})`).join(", ")}
+            </div>
+          ))}
+        </div>
+      );
     },
   },
   {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const user = row.original;
+      const teacher = row.original;
 
       return (
         <DropdownMenu>
@@ -97,18 +110,21 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Use
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(user.id.toString())
+                navigator.clipboard.writeText(teacher.id.toString())
               }
             >
-              Copy user ID
+              Copy teacher ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/list/teachers/${user.id}`} passHref >
+              <Link href={`/list/teachers/${teacher.id}`} passHref >
                 View Teacher
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleDelete(user.id)}>
+            <DropdownMenuItem onClick={() => handleUpdate(teacher.id)}>
+              Update Teacher
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleDelete(teacher.id)}>
               Delete Teacher
             </DropdownMenuItem>
           </DropdownMenuContent>

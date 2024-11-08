@@ -1,4 +1,4 @@
-// TeachersPage.tsx or wherever your classRoom type and columns function are defined
+// TeachersPage.tsx or wherever your course type and columns function are defined
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,52 +13,38 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export type Classroom = {
+export type Course = {
   id: number;
   name: string;
-  capacity: number;
-  subjects: string[];
 };
 
 // Create a function to define the columns
-export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Classroom>[] => [
+export const createColumns = (
+  handleDelete: (id: number) => void,
+  handleUpdate: (id: number) => void
+): ColumnDef<Course>[] => [
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("id")}</div>
-    ),
+    cell: ({ row }) => <div className="font-medium">{row.getValue("id")}</div>,
   },
   {
     id: "name",
     header: "Name",
     cell: ({ row }) => {
-      const classRoom = row.original;
+      const course = row.original;
       return (
         <div className="flex items-center space-x-2">
-          <span>{classRoom.name}</span>
+          <span>{course.name}</span>
         </div>
       );
-    },
-  },
-  {
-    accessorKey: "capacity",
-    header: "Capacity",
-    cell: ({ row }) => <div>{row.getValue("capacity") as String[] || "N/A"}</div>,
-  },
-  {
-    accessorKey: "subjects",
-    header: "Subjects",
-    cell: ({ row }) => {
-      const subjects = row.getValue("subjects") as string[];
-      return <div className="">{subjects.join(", ")}</div>;
     },
   },
   {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const classRoom = row.original;
+      const course = row.original;
 
       return (
         <DropdownMenu>
@@ -72,19 +58,22 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Cla
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(classRoom.id.toString())
+                navigator.clipboard.writeText(course.id.toString())
               }
             >
-              Copy classRoom ID
+              Copy course ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/list/teachers/${classRoom.id}`} passHref >
-                View Class
+              <Link href={`/list/teachers/${course.id}`} passHref>
+                View Course
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleDelete(classRoom.id)}>
-              Delete Class
+            <DropdownMenuItem onClick={() => handleUpdate(course.id)}>
+              Update Course
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleDelete(course.id)}>
+              Delete Course
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

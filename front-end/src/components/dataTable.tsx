@@ -159,29 +159,23 @@ export function DataTable<TData, TValue>({
       {/* Pagination */}
       <div className="flex justify-between py-4">
         <div className="flex items-center justify-start space-x-2 px-6 mb-1">
-          <div className="rounded-md cursor-pointer border-gray-400 border-2 hover:border-gray-500 h-[32px]">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-              className="outline-none border-none h-full"
-            >
-              Previous
-            </Button>
-          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
 
-          <div className="rounded-md cursor-pointer border-gray-400 border-2 hover:border-gray-500 h-[32px]">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-              className="outline-none border-none h-full"
-            >
-              Next
-            </Button>
-          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
         </div>
       </div>
     </>
