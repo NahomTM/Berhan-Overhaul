@@ -10,6 +10,8 @@ import { FiPlusCircle } from "react-icons/fi";
 const StudentsListPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [studentIdToDelete, setStudentIdToDelete] = useState<number | null>(null);
+  const [studentIdToUpdate, setStudentIdToUpdate] = useState<number | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<any>(null);
 
   const data = studentsData;
 
@@ -18,23 +20,43 @@ const StudentsListPage = () => {
     setIsModalOpen(true); // Open the modal when delete is triggered
   };
 
+  const handleUpdate = (id: number) => {
+    const studentToUpdate = studentsData.find(student => student.id === id);
+    if (studentToUpdate) {
+      const [firstName = "", lastName = ""] = studentToUpdate.name.split(" ");
+      const formattedStudent = {
+        ...studentToUpdate,
+        firstName,
+        lastName,
+        birthDate: studentToUpdate.birthday,
+      };
+      setSelectedStudent(formattedStudent);
+      setStudentIdToUpdate(id);
+      setIsModalOpen(true); // Open modal with pre-filled data for updating
+    }
+  };
+
   const openCreate = () => {
-    setIsModalOpen(true)
-  }
+    setStudentIdToUpdate(null);
+    setSelectedStudent(null);
+    setIsModalOpen(true);
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setStudentIdToDelete(null);
+    setStudentIdToUpdate(null);
+    setSelectedStudent(null);
   };
 
   const handleConfirmDelete = () => {
     // Implement your deletion logic here (e.g., API call)
-    console.log(`Deleting teacher with ID: ${studentIdToDelete}`);
+    console.log(`Deleting student with ID: ${studentIdToDelete}`);
     closeModal(); // Close modal after deletion
   };
 
-  // Get columns with the handleDelete function passed in
-  const columns = createColumns(handleDelete);
+  // Get columns with the handleDelete and handleUpdate functions passed in
+  const columns = createColumns(handleDelete, handleUpdate);
 
   return (
     <div className="relative">
@@ -50,24 +72,35 @@ const StudentsListPage = () => {
       {/* Fixed Plus Circle Icon */}
       <div className="fixed right-20 bottom-12 bg-none">
         <div className="pulse">
-          <FiPlusCircle size={60} stroke="white" fill="orange" onClick ={() => {openCreate()}} />
+          <FiPlusCircle size={60} stroke="white" fill="orange" onClick={openCreate} />
         </div>
       </div>
 
       {isModalOpen && studentIdToDelete !== null && (
         <FormModal
-          table="teacher"
+          table="student"
           type="delete"
           id={studentIdToDelete}
-          onClose={closeModal} // Pass the closeModal function
-          onConfirmDelete={handleConfirmDelete} // Pass the confirm handler
+          onClose={closeModal}
+          onConfirmDelete={handleConfirmDelete}
         />
       )}
-      {isModalOpen && (<FormModal
-                  table="student"
-                  type="create"
-                  onClose={closeModal}
-                />)}
+      {isModalOpen && studentIdToUpdate !== null && (
+        <FormModal
+          table="student"
+          type="update"
+          id={studentIdToUpdate}
+          onClose={closeModal}
+          data={selectedStudent} // Pass the formatted student data for update
+        />
+      )}
+      {isModalOpen && studentIdToUpdate === null && (
+        <FormModal
+          table="student"
+          type="create"
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };

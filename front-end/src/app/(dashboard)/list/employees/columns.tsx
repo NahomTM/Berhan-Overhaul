@@ -15,10 +15,11 @@ import Link from "next/link";
 
 export type Teacher = {
  id: number;
-  teacherId: string;
+  employeeId: string;
   name: string;
   email?: string;
   photo: string;
+  role: string;
   phone: string;
   birthday: string;
   bloodType?: string;
@@ -56,6 +57,11 @@ export const createColumns = (handleDelete: (id: number) => void, handleUpdate: 
         </div>
       );
     },
+  },
+  {
+    accessorKey: "role",
+    header: "Role",
+    cell: ({ row }) => <div>{row.getValue("role") || "N/A"}</div>,
   },
   {
     accessorKey: "email",
@@ -118,14 +124,14 @@ export const createColumns = (handleDelete: (id: number) => void, handleUpdate: 
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Link href={`/list/teachers/${teacher.id}`} passHref >
-                View Teacher
+                View Employee
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleUpdate(teacher.id)}>
-              Update Teacher
+              Update Employee
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleDelete(teacher.id)}>
-              Delete Teacher
+              Delete Employee
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

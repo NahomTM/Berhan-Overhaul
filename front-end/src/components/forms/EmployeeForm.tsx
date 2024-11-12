@@ -28,7 +28,7 @@ const schema = z.object({
 
 type Inputs = z.infer<typeof schema>;
 
-const TeacherForm = ({ type, data }: { type: "create" | "update"; data?: any }) => {
+const EmployeeForm = ({ type, data }: { type: "create" | "update"; data?: any }) => {
   const {
     register,
     handleSubmit,
@@ -46,7 +46,7 @@ const TeacherForm = ({ type, data }: { type: "create" | "update"; data?: any }) 
       bloodType: data?.bloodType || "",
       sex: data?.sex || "male",
       address: data?.address || "",
-      role: "teacher",
+      role: data?.role || "",
       img: data?.photo || ""
     } : {
       role: "select",
@@ -215,7 +215,7 @@ const TeacherForm = ({ type, data }: { type: "create" | "update"; data?: any }) 
                   <select
                     className="ring-[1.5px] ring-gray-300 rounded-md text-sm px-8 py-2"
                     {...register("role")}
-                    defaultValue="select"
+                    defaultValue={data.role}
                   >
                     <option value="select">Select</option>
                     <option value="admin">Admin</option>
@@ -378,4 +378,4 @@ const TeacherForm = ({ type, data }: { type: "create" | "update"; data?: any }) 
   );
 };
 
-export default TeacherForm;
+export default EmployeeForm;

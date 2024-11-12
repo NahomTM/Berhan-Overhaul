@@ -1,4 +1,4 @@
-// TeachersPage.tsx or wherever your user type and columns function are defined
+// TeachersPage.tsx or wherever your student type and columns function are defined
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,19 +13,24 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export type User = {
+export type Student = {
   id: number;
   studentId: string;
   name: string;
   email?: string;
   photo: string;
-  phone?: string;
-  class: string;
+  phone: string;
+  birthday: string;
+  bloodType?: string;
+  sex: string;
   address: string;
+  classesAndSubjects: {
+    [className: string]: string[] | undefined;
+  };
 };
 
 // Create a function to define the columns
-export const createColumns = (handleDelete: (id: number) => void): ColumnDef<User>[] => [
+export const createColumns = (handleDelete: (id: number) => void, handleUpdate: (id: number) => void): ColumnDef<Student>[] => [
   {
     accessorKey: "id",
     header: "ID",
@@ -37,17 +42,17 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Use
     id: "photoAndName",
     header: "Name",
     cell: ({ row }) => {
-      const user = row.original;
+      const student = row.original;
       return (
         <div className="flex items-center space-x-2">
           <Image
-            src={user.photo}
-            alt={user.name}
+            src={student.photo}
+            alt={student.name}
             width={40}
             height={40}
             className="h-8 w-8 rounded-full"
           />
-          <span>{user.name}</span>
+          <span>{student.name}</span>
         </div>
       );
     },
@@ -63,16 +68,49 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Use
     cell: ({ row }) => <div>{row.getValue("phone")}</div>,
   },
   {
-    accessorKey: "class",
-    header: "Class",
-    cell: ({ row }) =>
-      <div>{row.getValue("class")}</div>
+    accessorKey: "classes",
+    header: "Classes",
+    cell: ({ row }) => {
+      const classesAndSubjects = row.original.classesAndSubjects;
+      const classes = Object.keys(classesAndSubjects);
+      return <div>{classes.join(", ")}</div>;
+    },
   },
+  {
+    accessorKey: "subjects",
+    header: "Subjects",
+    cell: ({ row }) => {
+      const classesAndSubjects = row.original.classesAndSubjects;
+  
+      // Group subjects by class name
+      const groupedClasses = Object.entries(classesAndSubjects).reduce((acc: { [key: string]: string[] }, [className, subjects]) => {
+        // Check if subjects is defined before proceeding
+        if (subjects) {
+          if (!acc[className]) {
+            acc[className] = [];
+          }
+          acc[className].push(...subjects); // Add the subjects to the class array
+        }
+        return acc;
+      }, {});
+  
+      return (
+        <div>
+          {Object.entries(groupedClasses).map(([className, subjects]) => (
+            <div key={className}>
+              {`${className}: ${subjects.join(", ")}`}
+            </div>
+          ))}
+        </div>
+      );
+    },
+  }
+  ,
   {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const user = row.original;
+      const student = row.original;
 
       return (
         <DropdownMenu>
@@ -86,18 +124,21 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Use
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(user.id.toString())
+                navigator.clipboard.writeText(student.id.toString())
               }
             >
-              Copy user ID
+              Copy student ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/list/teachers/${user.id}`} passHref >
+              <Link href={`/list/teachers/${student.id}`} passHref >
                 View Student
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleDelete(user.id)}>
+            <DropdownMenuItem onClick={() => handleUpdate(student.id)}>
+              Update Student
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleDelete(student.id)}>
               Delete Student
             </DropdownMenuItem>
           </DropdownMenuContent>

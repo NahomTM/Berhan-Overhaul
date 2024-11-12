@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Import usePathname
 import { BiMessageDots } from "react-icons/bi";
-import { FaRegCalendarAlt, FaRegUserCircle } from "react-icons/fa";
+import { FaRegCalendarAlt, FaRegUserCircle, FaUserTie } from "react-icons/fa";
 import { LuFileAudio, LuListTodo } from "react-icons/lu";
 import {
   MdDashboard,
@@ -34,9 +34,9 @@ const menuItems = [
         visible: ["admin", "teacher"],
       },
       {
-        icon: <PiChalkboardTeacherBold />,
-        label: "Teachers",
-        href: "/list/teachers",
+        icon: <FaUserTie />,
+        label: "Employees",
+        href: "/list/employees",
         visible: ["admin"],
       },
       {

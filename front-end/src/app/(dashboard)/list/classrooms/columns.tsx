@@ -16,12 +16,11 @@ import Link from "next/link";
 export type Classroom = {
   id: number;
   name: string;
-  capacity: number;
   subjects: string[];
 };
 
 // Create a function to define the columns
-export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Classroom>[] => [
+export const createColumns = (handleDelete: (id: number) => void, handleUpdate: (id: number) => void): ColumnDef<Classroom>[] => [
   {
     accessorKey: "id",
     header: "ID",
@@ -40,11 +39,6 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Cla
         </div>
       );
     },
-  },
-  {
-    accessorKey: "capacity",
-    header: "Capacity",
-    cell: ({ row }) => <div>{row.getValue("capacity") as String[] || "N/A"}</div>,
   },
   {
     accessorKey: "subjects",
@@ -82,6 +76,9 @@ export const createColumns = (handleDelete: (id: number) => void): ColumnDef<Cla
               <Link href={`/list/teachers/${classRoom.id}`} passHref >
                 View Class
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleUpdate(classRoom.id)}>
+              Update Class
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleDelete(classRoom.id)}>
               Delete Class
